@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby
+
+require 'net/http'
+require 'uri'
+
+file = ENV['TM_FILEPATH'].match(/^\/.*\/(\w+(?:\.\w+)*)$/)[1]
+login = `/usr/bin/env git config --global --get github.user`.chomp
+token = `/usr/bin/env git config --global --get github.token`.chomp
+
+response = Net::HTTP.post_form(URI.parse('http://gist.github.com/api/v1/xml/new'), { "files[#{file}]" =&gt; ENV['TM_SELECTED_TEXT'], "private" =&gt; true, "login" =&gt; login, "token" =&gt; token })
+
+if response.body =~ /&lt;repo&gt;(\w+)&lt;\/repo&gt;/xi
+	`osascript -e 'tell application "System Events"
+	set xfr_clip to "https://gist.github.com/#{$1}"
+	set the clipboard to ((xfr_clip) as text)
+	end tell'`
+	puts "Private Gist URL copied to clipboard" #http://gist.github.com/#{$1}
+else
+	puts "Error"
+end</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>~@I</string>
+	<key>name</key>
+	<string>Create Private Gist</string>
+	<key>output</key>
+	<string>showAsTooltip</string>
+	<key>uuid</key>
+	<string>E637E422-3406-49BB-A772-6E42D1AA1951</string>
+</dict>
+</plist>
