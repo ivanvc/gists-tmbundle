@@ -10,22 +10,15 @@
 require 'net/http'
 require 'uri'
 
-unless ENV['TM_SELECTED_TEXT']
-	puts "You must select something to generate a gist"
-	exit
-end
+contents = `/usr/bin/env cat #{ENV['TM_FILEPATH']}` unless ENV['TM_SELECTED_TEXT']
 
-file = ENV['TM_FILEPATH'].match(/^\/.*\/(\w+(?:\.\w+)*)$/)[1]
 login = `/usr/bin/env git config --global --get github.user`.chomp
 token = `/usr/bin/env git config --global --get github.token`.chomp
 
-response = Net::HTTP.post_form(URI.parse('http://gist.github.com/api/v1/xml/new'), { "files[#{file}]" =&gt; ENV['TM_SELECTED_TEXT'], "private" =&gt; true, "login" =&gt; login, "token" =&gt; token })
+response = Net::HTTP.post_form(URI.parse('http://gist.github.com/api/v1/xml/new'), { "files[#{ENV['TM_FILENAME']}]" =&gt; ENV['TM_SELECTED_TEXT'] || contents, "private" =&gt; true, "login" =&gt; login, "token" =&gt; token })
 
 if response.body =~ /&lt;repo&gt;(\w+)&lt;\/repo&gt;/xi
-	`osascript -e 'tell application "System Events"
-	set xfr_clip to "https://gist.github.com/#{$1}"
-	set the clipboard to ((xfr_clip) as text)
-	end tell'`
+	`echo -n "https://gist.github.com/#{$1}" | pbcopy`
 	puts "Private Gist URL copied to clipboard"
 else
 	puts "Error"
