@@ -12,8 +12,8 @@ require 'uri'
 
 contents = `/usr/bin/env cat #{ENV['TM_FILEPATH']}` unless ENV['TM_SELECTED_TEXT']
 
-login = `/usr/bin/env git config --global --get github.user`.chomp
-token = `/usr/bin/env git config --global --get github.token`.chomp
+login = `#{ENV['TM_GIT'] || "/usr/bin/env git"} config --global --get github.user`.chomp
+token = `#{ENV['TM_GIT'] || "/usr/bin/env git"} config --global --get github.token`.chomp
 
 response = Net::HTTP.post_form(URI.parse('http://gist.github.com/api/v1/xml/new'), { "files[#{ENV['TM_FILENAME']}]" =&gt; ENV['TM_SELECTED_TEXT'] || contents, "private" =&gt; true, "login" =&gt; login, "token" =&gt; token })
 
