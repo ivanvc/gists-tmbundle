@@ -2,6 +2,15 @@ h1. TextMate Bundle to create Public/Private Gists
 
 With this bundle you can simply create public and private gists. You need to have Ruby, and configured your GitHub username and token in your global config. The URL will be copied to the clipboard.
 
+h2. Pre-requisites
+
+# Install ruby
+# Configure your "GitHub account":https://github.com/account
+<pre>
+$ git config --global github.user [your username]
+$ git config --global github.token [your token]
+</pre>
+
 h2. Install
 
 <pre>
