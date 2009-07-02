@@ -4,8 +4,9 @@ With this bundle you can simply create public and private gists. You need to hav
 
 h2. Pre-requisites
 
-# Install ruby
-# Configure your "GitHub account":https://github.com/account
+* Install ruby
+* Configure your "GitHub account":https://github.com/account
+
 <pre>
 $ git config --global github.user [your username]
 $ git config --global github.token [your token]
