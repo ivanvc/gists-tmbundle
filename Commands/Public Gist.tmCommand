@@ -10,6 +10,11 @@
 require 'net/http'
 require 'uri'
 
+unless ENV['TM_SELECTED_TEXT']
+	puts "You must select something to generate a gist"
+	exit
+end
+
 file = ENV['TM_FILEPATH'].match(/^\/.*\/(\w+(?:\.\w+)*)$/)[1]
 login = `/usr/bin/env git config --global --get github.user`.chomp
 token = `/usr/bin/env git config --global --get github.token`.chomp

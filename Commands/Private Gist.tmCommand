@@ -10,6 +10,11 @@
 require 'net/http'
 require 'uri'
 
+unless ENV['TM_SELECTED_TEXT']
+	puts "You must select something to generate a gist"
+	exit
+end
+
 file = ENV['TM_FILEPATH'].match(/^\/.*\/(\w+(?:\.\w+)*)$/)[1]
 login = `/usr/bin/env git config --global --get github.user`.chomp
 token = `/usr/bin/env git config --global --get github.token`.chomp
@@ -21,7 +26,7 @@ if response.body =~ /&lt;repo&gt;(\w+)&lt;\/repo&gt;/xi
 	set xfr_clip to "https://gist.github.com/#{$1}"
 	set the clipboard to ((xfr_clip) as text)
 	end tell'`
-	puts "Private Gist URL copied to clipboard" #http://gist.github.com/#{$1}
+	puts "Private Gist URL copied to clipboard"
 else
 	puts "Error"
 end</string>
