@@ -10,21 +10,42 @@
 require 'net/http'
 require 'uri'
 
-contents = `/usr/bin/env cat #{ENV['TM_FILEPATH']}` unless ENV['TM_SELECTED_TEXT']
+contents = ENV['TM_SELECTED_TEXT'] || `/usr/bin/env cat "#{ENV['TM_FILEPATH']}"`
+name = ENV['TM_FILENAME'] || 'Uploaded from TextMate'
 
-login = `#{ENV['TM_GIT'] || "/usr/bin/env git"} config --global --get github.user`.chomp
-token = `#{ENV['TM_GIT'] || "/usr/bin/env git"} config --global --get github.token`.chomp
+if contents.nil? || contents.strip == ''
+  puts "Error: no content to upload"
 
-response = Net::HTTP.post_form(URI.parse('http://gist.github.com/api/v1/xml/new'), { "files[#{ENV['TM_FILENAME']}]" =&gt; ENV['TM_SELECTED_TEXT'] || contents, "private" =&gt; true, "login" =&gt; login, "token" =&gt; token })
-
-if response.body =~ /&lt;repo&gt;(\w+)&lt;\/repo&gt;/xi
-	`echo -n "https://gist.github.com/#{$1}" | pbcopy`
-	puts "Private Gist URL copied to clipboard"
 else
-	puts "Error"
+  login = `#{ENV['TM_GIT'] || "/usr/bin/env git"} config --global --get github.user`.chomp
+  token = `#{ENV['TM_GIT'] || "/usr/bin/env git"} config --global --get github.token`.chomp
+  
+  if login.nil? || login == ''
+    puts "Error: your github login is not set"
+
+  elsif token.nil? || token == ''
+    puts "Error: your github token is not set"
+
+  else
+    response = Net::HTTP.post_form(URI.parse('http://gist.github.com/api/v1/xml/new'), {
+      "files[#{name}]" =&gt; contents,
+      "private" =&gt; true,
+      "login" =&gt; login,
+      "token" =&gt; token
+    })
+  
+    if response.body =~ /&lt;repo&gt;(\w+)&lt;\/repo&gt;/xi
+  	  `echo -n "https://gist.github.com/#{$1}" | pbcopy`	
+  	  puts "Private Gist URL copied to clipboard" 
+
+    else
+  	  puts "Error private uploading gist"
+    end
+  end
+  
 end</string>
 	<key>input</key>
-	<string>none</string>
+	<string>selection</string>
 	<key>keyEquivalent</key>
 	<string>~@I</string>
 	<key>name</key>

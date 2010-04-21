@@ -10,7 +10,7 @@
 require 'net/http'
 require 'uri'
 
-contents = ENV['TM_SELECTED_TEXT'] || `/usr/bin/env cat #{ENV['TM_FILEPATH']}`
+contents = ENV['TM_SELECTED_TEXT'] || `/usr/bin/env cat "#{ENV['TM_FILEPATH']}"`
 name = ENV['TM_FILENAME'] || 'Uploaded from TextMate'
 
 if contents.nil? || contents.strip == ''
@@ -38,7 +38,7 @@ else
   	  puts "Public Gist URL copied to clipboard" 
 
     else
-  	  puts "Error"
+	    puts "Error public uploading gist"
     end
   end
   
