@@ -10,7 +10,7 @@
 require 'net/http'
 require 'uri'
 
-contents = `/usr/bin/env cat #{ENV['TM_FILEPATH']}` unless ENV['TM_SELECTED_TEXT']
+contents = `/usr/bin/env cat "#{ENV['TM_FILEPATH']}"` unless ENV['TM_SELECTED_TEXT']
 
 login = `#{ENV['TM_GIT'] || "/usr/bin/env git"} config --global --get github.user`.chomp
 token = `#{ENV['TM_GIT'] || "/usr/bin/env git"} config --global --get github.token`.chomp
