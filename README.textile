@@ -6,6 +6,7 @@ h2. Pre-requisites
 
 * Install ruby
 * Configure your "GitHub account":https://github.com/account
+* If for some reason your git binary is in a place that /usr/bin/env cannot locate, then you can set it to a TextMate Shell variable (TM_GIT)
 
 <pre>
 $ git config --global github.user [your username]
@@ -24,4 +25,9 @@ osascript -e 'tell app "TextMate" to reload bundles'
 h2. That's it
 
 * Use ⌘⌥⇧I to create a private gist
-* Use ⌘⌥⇧P to create a public gist
+* Use ⌘⌥⇧U to create a public gist
+
+h2. Credits
+
+Thanks to "dandean":http://github.com/dandean, and "beaucollins":http://github.com/beaucollins for their contributions.
+
