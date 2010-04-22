@@ -39,7 +39,7 @@ else
   	  puts "Private Gist URL copied to clipboard" 
 
     else
-  	  puts "Error private uploading gist"
+  	  puts "Error uploading private gist"
     end
   end
   

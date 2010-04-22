@@ -38,7 +38,7 @@ else
   	  puts "Public Gist URL copied to clipboard" 
 
     else
-	    puts "Error public uploading gist"
+	    puts "Error uploading public gist"
     end
   end
   
