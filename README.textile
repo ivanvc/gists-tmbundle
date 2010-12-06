@@ -6,22 +6,31 @@ h2. Pre-requisites
 
 * Install ruby
 * Configure your "GitHub account":https://github.com/account
-* If for some reason your git binary is in a place that /usr/bin/env cannot locate, then you can set it to a TextMate Shell variable (TM_GIT)
-
+* If for some reason your git binary is in a place that /usr/bin/env cannot locate, then you can set it to a TextMate Shell variable (`TM_GIT`), or add the path its in to `PATH`. For example, if you installed git from MacPorts, you would add `/opt/local/bin:` to the front of `PATH`,
+* add your github username and token to your git config:
 <pre>
-$ git config --global github.user [your username]
-$ git config --global github.token [your token]
+<code>
+  $ git config --global github.user [your username]
+  $ git config --global github.token [your token]
+</code>
+</pre>
+**or** to your shell environment:
+<pre>
+<code>
+  export GITHUB_USER="[your username]"
+  export GITHUB_TOKEN="[your token]"
+</code>
 </pre>
 
 h2. Install
-
 <pre>
+<code>
 mkdir -p ~/Library/Application\ Support/TextMate/Bundles/
 cd ~/Library/Application\ Support/TextMate/Bundles
 git clone git://github.com/ivanvc/gists-tmbundle.git Gists.tmbundle
 osascript -e 'tell app "TextMate" to reload bundles'
+</code>
 </pre>
-
 h2. That's it
 
 * Use ⌘⌥⇧I to create a private gist
