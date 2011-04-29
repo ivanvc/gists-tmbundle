@@ -7,42 +7,23 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby
 
-require 'net/http'
-require 'uri'
+require ENV['TM_BUNDLE_SUPPORT'] + '/gist.rb'
 
-contents = ENV['TM_SELECTED_TEXT'] || `/usr/bin/env cat "#{ENV['TM_FILEPATH']}"`
-name = ENV['TM_FILENAME'] || 'Uploaded from TextMate'
+if @continue
+  response = Net::HTTP.post_form(URI.parse('http://gist.github.com/api/v1/xml/new'), {
+    "files[#{@name}]" =&gt; @contents,
+    "login" =&gt; @login,
+    "token" =&gt; @token
+  })
 
-if contents.nil? || contents.strip == ''
-  puts "Error: no content to upload"
-
-else
-  login = `#{ENV['TM_GIT'] || "/usr/bin/env git"} config --global --get github.user`.chomp
-  token = `#{ENV['TM_GIT'] || "/usr/bin/env git"} config --global --get github.token`.chomp
-  
-  if login.nil? || login == ''
-    puts "Error: your github login is not set"
-
-  elsif token.nil? || token == ''
-    puts "Error: your github token is not set"
-
+  if response.body =~ /&lt;repo&gt;(\w+)&lt;\/repo&gt;/xi
+    `echo -n "http://gist.github.com/#{$1}" | pbcopy` 
+    puts "Public Gist URL copied to clipboard" 
   else
-    response = Net::HTTP.post_form(URI.parse('http://gist.github.com/api/v1/xml/new'), {
-      "files[#{name}]" =&gt; contents,
-      "login" =&gt; login,
-      "token" =&gt; token
-    })
-  
-    if response.body =~ /&lt;repo&gt;(\w+)&lt;\/repo&gt;/xi
-  	  `echo -n "http://gist.github.com/#{$1}" | pbcopy`	
-  	  puts "Public Gist URL copied to clipboard" 
-
-    else
-	    puts "Error uploading public gist"
-    end
+    puts "Error uploading public gist"
   end
-  
-end</string>
+end
+</string>
 	<key>input</key>
 	<string>selection</string>
 	<key>keyEquivalent</key>
