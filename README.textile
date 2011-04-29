@@ -31,12 +31,16 @@ git clone git://github.com/ivanvc/gists-tmbundle.git Gists.tmbundle
 osascript -e 'tell app "TextMate" to reload bundles'
 </code>
 </pre>
+
 h2. That's it
 
 * Use ⌘⌥⇧I to create a private gist
 * Use ⌘⌥⇧U to create a public gist
 
+h2. Note
+
+If setting your user/token in your shell environment, TextMate must be launched via the command line `mate` command, NOT from the dock or Finder. Otherwise it won't pick up the variables (strange behavior on TextMate's part).
+
 h2. Credits
 
 Thanks to "jjb":http://github.com/jjb, "dandean":http://github.com/dandean, and "beaucollins":http://github.com/beaucollins for their contributions.
-
