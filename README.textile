@@ -38,5 +38,5 @@ h2. That's it
 
 h2. Credits
 
-Thanks to "dandean":http://github.com/dandean, and "beaucollins":http://github.com/beaucollins for their contributions.
+Thanks to "jjb":http://github.com/jjb, "dandean":http://github.com/dandean, and "beaucollins":http://github.com/beaucollins for their contributions.
 
